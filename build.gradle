@@ -34,27 +34,20 @@ ext {
 }
 
 dependencies {
-    // JUnit - test framework dasar
     testImplementation "junit:junit:${junitVersion}"
 
-    // Cucumber - BDD framework
     testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-junit:${cucumberVersion}"
 
-    // Selenium - untuk Web UI testing
     testImplementation "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
 
-    // WebDriverManager - download ChromeDriver otomatis
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.3'
 
-    // REST Assured - untuk API testing
     testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
     testImplementation "io.rest-assured:json-path:${restAssuredVersion}"
 
-    // Jackson - untuk parsing JSON
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 
-    // Hamcrest - untuk assertions yang lebih mudah dibaca
     testImplementation 'org.hamcrest:hamcrest:2.2'
 }
 
@@ -62,16 +55,12 @@ task apiTest(type: Test) {
     description = 'Menjalankan semua Cucumber test dengan tag @api'
     group = 'verification'
 
-    // Gunakan JUnit sebagai test framework
     useJUnit()
 
-    // Tentukan runner class yang akan dijalankan
     include '**/ApiTestRunner.class'
 
-    // System properties untuk Cucumber options
     systemProperty 'cucumber.filter.tags', '@api'
 
-    // Test output
     testLogging {
         events "passed", "skipped", "failed"
         showStandardStreams = true
@@ -88,8 +77,7 @@ task webTest(type: Test) {
 
     systemProperty 'cucumber.filter.tags', '@web'
 
-    // Untuk CI/CD, jalankan browser dalam mode headless (tanpa GUI)
-    systemProperty 'webdriver.firefox.headless', System.getProperty('headless', 'false')
+    systemProperty 'webdriver.chrome.headless', System.getProperty('headless', 'false')
 
     testLogging {
         events "passed", "skipped", "failed"
