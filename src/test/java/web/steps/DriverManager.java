@@ -2,8 +2,8 @@ package web.steps;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverManager {
 
@@ -17,26 +17,29 @@ public class DriverManager {
     }
 
     private static void initDriver() {
-        WebDriverManager.firefoxdriver().setup();
+        WebDriverManager.chromedriver().setup();
 
-        FirefoxOptions options = new FirefoxOptions();
+        ChromeOptions options = new ChromeOptions();
 
         String headless = System.getProperty("webdriver.chrome.headless", "false");
         if ("true".equalsIgnoreCase(headless)) {
             options.addArguments("--headless");
-            System.out.println("Running Firefox in headless mode");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            System.out.println("Running Chrome in headless mode");
         }
 
-        driver = new FirefoxDriver(options);
-        driver.manage().window().maximize();
-        System.out.println("FirefoxDriver initialized successfully");
+        options.addArguments("--start-maximized");
+
+        driver = new ChromeDriver(options);
+        System.out.println("ChromeDriver initialized successfully");
     }
 
     public static void quitDriver() {
         if (driver != null) {
             driver.quit();
             driver = null;
-            System.out.println("FirefoxDriver closed");
+            System.out.println("ChromeDriver closed");
         }
     }
 }
