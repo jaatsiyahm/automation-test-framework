@@ -4,6 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverManager {
 
@@ -20,6 +22,12 @@ public class DriverManager {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
+
+        // Set user profile preferences (disable password manager)
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("profile.password_manager_leak_detection", false);
+        prefs.put("credentials_enable_service", false);
+        options.setExperimentalOption("prefs", prefs);
 
         String headless = System.getProperty("webdriver.chrome.headless", "false");
         if ("true".equalsIgnoreCase(headless)) {
